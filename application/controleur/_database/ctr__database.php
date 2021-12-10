@@ -140,56 +140,6 @@ function a_dataset()
         //mysqli_query($link, $sql . implode(",", $tab));
         $message .= "tarifs<br>";
 
-
-        //Utilisateur
-        $sql = "insert into utilisateur values ";
-        $nbclient = 1000;
-        $nbagent = 40;
-        $nbsrc = 10;
-        $nbadmin = 2;
-
-        $data = [];
-        echo "ça commence";
-        $data[] = ['',"client1", "clilog1","client1@mail","1", "1",null];
-echo "insertion";
-        insert_data("utilisateur", $data);
-echo "1ier finit";
-
-        for ($i = 1; $i <= $nbclient; $i++) {
-            $mdp = "toto";
-            //password_hash("climdp$i", PASSWORD_DEFAULT);
-            $data[] = ['',"client$i", "clilog$i","mail$i","$mdp", "1",null];
-        }
-        insert_data("utilisateur", $data);
-       
-
-        $data = [];
-        for ($i = 1; $i <= $nbagent; $i++) {
-            $a = ceil($i / 2);
-            $mdp = "toto";
-            //password_hash("agemdp$i", PASSWORD_DEFAULT);
-            $data[] = ['', "agent$i", "agelog$i", "mail$i", "$mdp", "2", "$a"];
-        }
-        insert_data("utilisateur", $data);
-        
-        $data = [];
-        for ($i = 1; $i <= $nbsrc; $i++) {
-            $mdp = "toto";
-            //password_hash("srcmdp$i", PASSWORD_DEFAULT);
-            $data[] = ['', "src$i", "srclog$i", "mailsrc$i", "$mdp", "3", null];
-        }
-        insert_data("utilisateur", $data);
-        
-        $data = [];
-        for ($i = 1; $i <= $nbadmin; $i++) {
-            $mdp = "toto";
-            //password_hash("adminmdp$i", PASSWORD_DEFAULT);
-            $data[] = ['', "admin$i", "adminlog$i", "mailadmin$i", "$mdp", "4",null];
-        }
-        insert_data("utilisateur", $data);
-        $message .= "utilisateurs<br>";
-
-
         //departement
         $data = [];
         for ($i = 1; $i <= 20; $i++)
@@ -202,6 +152,50 @@ echo "1ier finit";
         for ($i = 1; $i <= 20; $i++)
             $data[] = ['', "agence $i", "$i"];
         insert_data("agence", $data);
+
+        //Utilisateur
+        $nbclient = 1000;
+        $nbagent = 40;
+        $nbsrc = 10;
+        $nbadmin = 2;
+
+        $data = []; 
+        $sql = "insert into utilisateur values ";       
+        for ($i = 1; $i <= $nbclient; $i++) {
+            $mdp = "toto";
+            $data[]="('','client$i', 'clilog$i','climail$i','$mdp', 1,NULL)";
+        }
+        $sql=$sql . implode(",",$data);
+        mysqli_query($link, $sql);
+
+        $data = [];
+        $sql = "insert into utilisateur values ";
+        for ($i = 1; $i <= $nbagent; $i++) {
+            $a = ceil($i / 2);
+            $mdp = "toto";
+            $data[]="('','ageent$i', 'agelog$i','agemail$i','$mdp', 2,'$a')";
+        }
+        $sql=$sql . implode(",",$data);
+        mysqli_query($link, $sql);
+        
+        $data = [];
+        $sql = "insert into utilisateur values ";
+        for ($i = 1; $i <= $nbsrc; $i++) {
+            $mdp = "toto";
+            $data[]="('','src$i', 'srclog$i','srcmail$i','$mdp', 3,NULL)";
+        }
+        $sql=$sql . implode(",",$data);
+        mysqli_query($link, $sql);
+
+        $data = [];
+        $sql = "insert into utilisateur values ";
+        for ($i = 1; $i <= $nbadmin; $i++) {
+            $mdp = "toto";
+            $data[]="('','admin$i', 'adminlog$i','adminmail$i','$mdp', 4,NULL)";
+        }
+        $sql=$sql . implode(",",$data);
+        mysqli_query($link, $sql);
+
 
         //option 
         $nb = 0;
