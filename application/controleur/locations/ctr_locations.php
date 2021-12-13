@@ -28,6 +28,7 @@ $loc_client='';
 $loc_agencedepart='';
 $loc_agencearrivee='';
 $loc_voiture='';
+$loc_statut='';
 $loc_gestionaire='';
 
     } else {

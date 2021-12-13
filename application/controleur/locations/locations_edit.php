@@ -32,6 +32,10 @@
 <input type='text' name='loc_voiture' id='loc_voiture' value='<?=$loc_voiture?>'>
 </p>
 <p>
+<label for='loc_statut'>loc_statut : </label>
+<input type='text' name='loc_statut' id='loc_statut' value='<?=$loc_statut?>'>
+</p>
+<p>
 <label for='loc_gestionaire'>loc_gestionaire : </label>
 <input type='text' name='loc_gestionaire' id='loc_gestionaire' value='<?=$loc_gestionaire?>'>
 </p>

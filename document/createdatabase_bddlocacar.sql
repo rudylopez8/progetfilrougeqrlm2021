@@ -80,6 +80,7 @@ CREATE TABLE locations (
 	loc_agencedepart INT NOT NULL,
 	loc_agencearrivee INT NOT NULL,
 	loc_voiture INT NOT NULL,
+	loc_statut VARCHAR(32) NOT NULL,
 	loc_gestionaire INT NOT NULL
 )ENGINE=InnoDB;
 

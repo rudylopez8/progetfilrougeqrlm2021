@@ -10,6 +10,7 @@
 <th>loc_agencedepart</th>
 <th>loc_agencearrivee</th>
 <th>loc_voiture</th>
+<th>loc_statut</th>
 <th>loc_gestionaire</th>
 
                     <th>Edition</th>
@@ -31,6 +32,7 @@
 <td><?=$loc_agencedepart?></td>
 <td><?=$loc_agencearrivee?></td>
 <td><?=$loc_voiture?></td>
+<td><?=$loc_statut?></td>
 <td><?=$loc_gestionaire?></td>
 
                     <td><a href="<?=hlien("locations","edit","id",$loc_id)?>">Edition</a></td>

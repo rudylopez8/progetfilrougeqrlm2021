@@ -85,7 +85,7 @@ function a_dataset()
 
     if (isset($btsubmit)) {
         //profil
-        $data = ["client", "agent", "src", "admin"];
+         $data = ["client", "agent", "src", "admin"];
         $nb = count($data);
         foreach ($data as $valeur) {
             $sql = "insert into profil values ('','$valeur')";
@@ -118,6 +118,7 @@ function a_dataset()
             5 => array(1 => 15, 2 => 14, 3 => 13),
             6 => array(1 => 17, 2 => 16, 3 => 15)
         );
+        print_r($data);
         $sqltarif = "select count(*) nbc 
             from categorie";
         $result = mysqli_query($link, $sqltarif);
@@ -230,28 +231,70 @@ function a_dataset()
             }
         }
         insert_data("voiture", $data);
-
+ 
         //location
+        $nbvoiture = 10 ;
+        $nbclient = 1000;
+        $nombreagence = 20;
+        $nbagent = 40;
+        $nbsrc = 10;
+        $nbadmin = 2;
+
+        $data = [];
         $sql = "insert into locations values ";
         $nbtotalvoiture = $nbvoiture * 20;
+    $statutliste=["initialisée","en cours","validée","annulée"];
         $journee = (24 * 3600);
+        $tdateactuelle = time();    
         for ($i = 1; $i <= $nbtotalvoiture; $i++) {
             for ($j = 1; $j <= 5; $j++) {
                 $jour = mt_rand(1, 24);
-                $datededemande = mktime(mt_rand(8, 20), 0, 0, mt_rand(1, 12), $jour + $j, 2021);
-                $dtdemande = date("Y-m-d H:i:s", $datededemande);
-                $dtdebut = date("Y-m-d H:i:s", mktime($datededemande + $journee));
-                $dtfin = date("Y-m-d H:i:s", mktime($datededemande + mt_rand(($journee + (3600)), $journee + 48 * 3600)));
+                $tsdemande=mktime(mt_rand(1,24),0,0,mt_rand(1,12),$jour,2021);
+                $tsdebut=$tsdemande+(24*3600);
+                $tsfin=$tsdemande+$journee+mt_rand(3600,(48*3600));
+                
+                $datedemande=date("Y-m-d H:i:s",$tsdemande);
+                $datedebut=date("Y-m-d H:i:s",$tsdebut);
+                $datefin=date("Y-m-d H:i:s",$tsfin);
+if ($tsfin<$tdateactuelle) {
+    $hasard = mt_rand(1,20);
+    if ($hasard == 20 ){
+        $statut = $statutliste[3]; 
+    } else {
+        $statut = $statutliste[2];  
+    }
+    
+}              
+elseif (($tsdebut>$tdateactuelle)) {
+    $statut = $statutliste[0];
+}
+else {
+    $statut = $statutliste[1];
+}
+
+/* 
+
+               $datededemande = mktime(mt_rand(8, 20), 0, 0, mt_rand(1, 12), $jour + $j, 2021);
+              $dtdemande = date("Y-m-d H:i:s", $datededemande);
+$datededebut=mktime($datededemande+$journee);
+                $dtdebut = date("Y-m-d H:i:s", mktime($datededebut));
+                $datedefin=mktime(mt_rand($datededebut+3600,$datededebut+(48*3600)));
+
+                $dtfin = date("Y-m-d H:i:s", mktime($datedefin));
+ */
+
+
                 $client = mt_rand(1, $nbclient);
                 $agedep = mt_rand(1, $nombreagence);
                 $agearr = mt_rand(1, $nombreagence);
                 $gestionnaire = mt_rand($nbclient, $nbclient + $nbagent + $nbsrc + $nbadmin);
-                $data[] = ['', "$dtdemande", "$dtdebut", "$dtfin", "$client", "$agedep", "$agearr", "$i", "$gestionnaire"];
+                $data[] = "('', '$datedemande', '$datedebut', '$datefin', '$client', '$agedep', '$agearr', '$i','$statut', '$gestionnaire')";
             }
         }
-        insert_data("locations", $data);
-
-
+        print_r($data);
+        $sql=$sql . implode(",",$data);
+        mysqli_query($link, $sql);
+// select age_id,voi_id,count(*) nb from voiture,agence where voi_localiation=age_id group age_id
         //choisir
         $data = [];
         // on récupère le nombre de location
