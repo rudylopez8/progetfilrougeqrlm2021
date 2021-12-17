@@ -1,0 +1,66 @@
+1.	Liste des agences avec le nombre de véhicules présents.
+select age_id, count(voi_id) nbvoiture from agence, voiture where voi_localisation=age_id group by age_id
+2.	Liste des véhicules par agence.
+select voi_id, voi_immatriculation, age_id from agence, voiture where voi_localisation=age_id
+3.	Liste des locations par statut pour une agence donnée.
+select loc_id, age_nom, loc_statut 
+from locations, agence 
+where loc_agencedepart=age_id and loc_agencedepart=1 order by loc_statut
+4.	Liste des locations entre 2 dates données pour une agence donnée.
+select loc_id, age_id, loc_datedebut, loc_datefin
+from locations, agence
+where loc_agencedepart=age_id and loc_agencedepart=1 
+and loc_datedebut >="2021-08-30 00:00:00" 
+and loc_datefin <="2021-10-30 00:00:00"
+order by loc_datedebut
+5.	Nombre de locations par agence et par statut.
+select count(loc_id)nblocation, age_nom, loc_statut from locations, agence where loc_agencedepart=age_id group by age_id, loc_statut
+
+6.	Liste des agences par département.
+select dep_nom, age_nom from departement, agence where age_departement=dep_id order by dep_id, age_nom
+
+7.	Chiffre d’affaire d’une agence donnée.
+SELECT loc_agencedepart, sum(nbheures*tar_prix)prixtotal
+from vduree, intervalle, tarif
+where tar_intervalle=int_id and tar_categorie=voi_categorie
+and nbheures >= int_min and nbheures<=int_max
+group by loc_agencedepart
+
+8.	Requête donnant la durée (en nombre d’heures) d’une location.
+create view vduree as
+SELECT *, HOUR(TIMEDIFF(loc_datedebut, loc_datefin)) nbheures
+from locations, voiture
+where loc_voiture=voi_id;
+
+9.	Liste les véhicules libres entre deux dates données. 
+
+select voi_id
+from voiture
+where voi_id not in
+(
+select voi_id
+from locations, voiture
+where loc_voiture=voi_id 
+and not (loc_datedebut >="2021-10-30 00:00:00" 
+or loc_datefin <="2021-08-30 00:00:00")
+)
+
+ 
+
+select voi_id, age_id
+from location, voiture, agence
+where 
+loc_agencedepart=age_id and loc_voiture=voi_id and age_id=4 and
+not(loc_datedebut >="2021-08-30 00:00:00" 
+and loc_datefin <="2021-10-30 00:00:00")
+
+10.	Requête donnant le prix d’une location (hors options sur le véhicule).
+select loc_id, tar_prix
+from location, tarif, intervalle, categorie
+where cat_id=tar_categorie and int_id=tar_intervalle and loc_id=5
+
+11.	Requête donnant le montant total des options attachées à chaque véhicule.
+select loc_id, cho_id, opt_nom
+from locations, choisir, options
+where cho_location=loc_id and cho_option=opt_id 
+(pas finit)
